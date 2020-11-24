@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunWithGithubActions", "FunWithGithubActions\FunWithGithubActions.csproj", "{0194BB8E-3B2D-4192-8DEB-1B12EC1ED0F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunWithGithubActions.Test", "FunWithGithubActions.Test\FunWithGithubActions.Test.csproj", "{74502706-C5C6-4641-B7EB-1865A4649013}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{0194BB8E-3B2D-4192-8DEB-1B12EC1ED0F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0194BB8E-3B2D-4192-8DEB-1B12EC1ED0F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0194BB8E-3B2D-4192-8DEB-1B12EC1ED0F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74502706-C5C6-4641-B7EB-1865A4649013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74502706-C5C6-4641-B7EB-1865A4649013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74502706-C5C6-4641-B7EB-1865A4649013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74502706-C5C6-4641-B7EB-1865A4649013}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
