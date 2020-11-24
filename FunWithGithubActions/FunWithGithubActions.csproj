@@ -3,6 +3,8 @@
     <PropertyGroup>
         <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
         <OutputType>Exe</OutputType>
+        <Configurations>Release;Debug</Configurations>
+        <Platforms>x64</Platforms>
     </PropertyGroup>
 
 </Project>
