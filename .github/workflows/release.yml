@@ -2,7 +2,7 @@ name: CI Release
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 env:
   PROJECT_FILE: FunWithGithubActions/FunWithGithubActions.csproj
