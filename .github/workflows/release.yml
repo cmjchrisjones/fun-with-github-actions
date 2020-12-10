@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     env:
-      RELEASE_NAME: "${{ env.PROEJCT_PREFIX }}-${{ github.event.release.tag_name }}-${{ matrix.target }}"
+      RELEASE_NAME: "Fun With GitHub Actions-${{ github.event.release.tag_name }}-${{ matrix.target }}"
     strategy:
       matrix:
         kind: ['linux', 'windows']
@@ -31,23 +31,23 @@ jobs:
       with:
         dotnet-version: 3.1.x
     - name: Build
-      run: dotnet publish "${{ env.PROJECT_FILE }}" -c Release -r "${{ matrix.target }}"  -f netcoreapp3.1 -o ${{ env.RELEASE_NAME }} /p:Version=${{ github.event.release.tag_name }}
+      run: dotnet publish "FunWithGithubActions/FunWithGithubActions.csproj" -c Release -r "${{ matrix.target }}"  -f netcoreapp3.1 -o "Fun With GitHub Actions" /p:Version=${{ github.event.release.tag_name }}
     - name: Package
       shell: bash
       run: |
           if [ "${{ matrix.target }}" == "win-x64" ]; then
-            7z a -tzip "${{env.RELEASE_NAME}}.zip" "./${{env.RELEASE_NAME}}/*"
+            7z a -tzip "Fun With GitHub Actions.zip" "./Fun With GitHub Actions/*"
           else
-            tar czvf "${{env.RELEASE_NAME}}.tar.gz" "${{env.RELEASE_NAME}}"
+            tar czvf "Fun With GitHub Actions.tar.gz" "Fun With GitHub Actions"
           fi
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{env.RELEASE_NAME}}
-        path: ${{env.RELEASE_NAME}}.*
+        name: Fun With GitHub Actions
+        path: "Fun With GitHub Actions.*"
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
-        files: "${{env.RELEASE_NAME}}.*"
+        files: "Fun With GitHub Actions.*"
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
