@@ -36,9 +36,9 @@ jobs:
       shell: bash
       run: |
           if [ "${{ matrix.target }}" == "win-x64" ]; then
-            7z a -tzip "Fun With GitHub Actions.zip" "./Fun With GitHub Actions/*"
+            7z a -tzip "Fun With GitHub-win-x64.zip" "./Fun With GitHub Actions/*"
           else
-            tar czvf "Fun With GitHub Actions.tar.gz" "Fun With GitHub Actions"
+            tar czvf "Fun With GitHub-linux-x64.tar.gz" "Fun With GitHub Actions"
           fi
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
@@ -48,6 +48,6 @@ jobs:
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
-        files: "Fun With GitHub Actions.*"
+        files: "Fun With GitHub-*.*"
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
