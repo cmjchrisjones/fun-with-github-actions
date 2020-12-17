@@ -15,10 +15,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    #strategy:
-      #fail-fast: false
-      #matrix:
-      #  os: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -31,18 +27,13 @@ jobs:
     - name: Verify .NET Core
       run: dotnet --info
     
-    #- name: Build Unix
-    #  run: dotnet publish "${{ env.PROJECT_FILE }}" -c ${{ env.CONFIGURATION }} -r "${{ matrix.target }}"  -f ${{ env.FRAMEWORK }} -o "${{ env.PROJECT_PREFIX }}" /p:Version=${{ github.event.release.tag_name }}
-    
-    #- name: Build Windows
-    #  run: dotnet publish "${{ env.PROJECT_FILE }}" -c ${{ env.CONFIGURATION }} -r "${{ matrix.target }}"  -f ${{ env.FRAMEWORK }} -o "${{ env.PROJECT_PREFIX }}" /p:Version=${{ github.event.release.tag_name }}
-    
-    - name: Build
+    - name: Publish
       env:
         VARIANTS: linux-arm linux-arm64 linux-x64 win-x64 win-x86
         PUBLISH_VERSION: ${{ github.event.release.tag_name }}
       shell: bash
       run: |
+        set -eu
         
         publish() {
           dotnet restore "${PROJECT_FILE}" -r "${1}"
@@ -67,10 +58,10 @@ jobs:
             publish "$variant"
         done
     
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        path: "out/${{ env.PROJECT_PREFIX }}-*.zip"
+    #- name: Upload Artifact
+    #  uses: actions/upload-artifact@v2
+    #  with:
+    #    path: "out/${{ env.PROJECT_PREFIX }}-*.zip"
     
     #- name: Changelog
     #  uses: glennawatson/ChangeLog@v1
