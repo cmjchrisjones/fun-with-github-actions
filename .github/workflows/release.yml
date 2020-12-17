@@ -5,6 +5,7 @@ on:
     types: [published]
 
 env:
+  PROJECT_FOLDER: FunWithGithubActions
   PROJECT_FILE: FunWithGithubActions/FunWithGithubActions.csproj
   PROJECT_PREFIX: "Fun With GitHub Actions"
   DOTNET_SDK_VERSION: "3.1.x"
@@ -44,7 +45,10 @@ jobs:
       run: |
         
         publish() {
-          dotnet publish "${PROJECT_FILE}" -c "${CONFIGURATION}" -f "${FRAMEWORK}" -o "out/${1}" -r "${1}" -p:PublishSingleFile=true -p:PublishTrimmed=true -p:Version="${PUBLISH_VERSION}"
+          dotnet restore "${PROJECT_FILE}" -r "${1}"
+          dotnet publish "${PROJECT_FILE}" -c "${CONFIGURATION}" -f "${FRAMEWORK}" -o "out/${1}" -r "${1}" -p:PublishSingleFile=true -p:PublishTrimmed=true -p:Version="${PUBLISH_VERSION}" --no-restore
+          rm -rf "${PROJECT_FOLDER}/bin"
+          rm -rf "${PROJECT_FOLDER}/obj"
           
           if command -v 7z >/dev/null; then
               7z a -bd -slp -tzip -mm=Deflate -mx=1 "out/${PROJECT_PREFIX}-${1}.zip" "${GITHUB_WORKSPACE}/out/${1}/*"
