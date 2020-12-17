@@ -1,13 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-
         <IsPackable>false</IsPackable>
-
-        <Configurations>Release;Debug</Configurations>
-
-        <Platforms>x64;AnyCPU</Platforms>
-
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
