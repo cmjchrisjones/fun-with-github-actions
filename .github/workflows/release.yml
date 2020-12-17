@@ -7,12 +7,13 @@ on:
 env:
   PROJECT_FILE: FunWithGithubActions/FunWithGithubActions.csproj
   PROEJCT_PREFIX: "Fun With GitHub Actions"
+  DOTNET_SDK_VERSION: "3.1.x"
+  FRAMEWORK: netcoreapp3.1
+  CONFIGURATION: Release
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    env:
-      RELEASE_NAME: "Fun With GitHub Actions-${{ github.event.release.tag_name }}-${{ matrix.target }}"
     strategy:
       matrix:
         kind: ['linux', 'windows']
@@ -26,28 +27,36 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core SDK 3.1.x
+
+    - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+
+    - name: Verify .NET Core
+      run: dotnet --info
+    
     - name: Build
-      run: dotnet publish "FunWithGithubActions/FunWithGithubActions.csproj" -c Release -r "${{ matrix.target }}"  -f netcoreapp3.1 -o "Fun With GitHub Actions" /p:Version=${{ github.event.release.tag_name }}
+      run: dotnet publish "${{ env.PROJECT_FILE }}" -c ${{ env.CONFIGURATION }} -r "${{ matrix.target }}"  -f ${{ env.FRAMEWORK }} -o "${{ env.PROEJCT_PREFIX }}" /p:Version=${{ github.event.release.tag_name }}
+    
     - name: Package
       shell: bash
       run: |
           if [ "${{ matrix.target }}" == "win-x64" ]; then
-            7z a -tzip "Fun With GitHub-win-x64.zip" "./Fun With GitHub Actions/*"
+            7z a -tzip "${{ env.PROEJCT_PREFIX }}-win-x64.zip" "./${{ env.PROEJCT_PREFIX }}/*"
           else
-            tar czvf "Fun With GitHub-linux-x64.tar.gz" "Fun With GitHub Actions"
+            tar czvf "${{ env.PROEJCT_PREFIX }}-linux-x64.tar.gz" "${{ env.PROEJCT_PREFIX }}"
           fi
+    
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Fun With GitHub Actions
-        path: "Fun With GitHub Actions.*"
+        name: ${{ env.PROEJCT_PREFIX }}
+        path: "${{ env.PROEJCT_PREFIX }}.*"
+    
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
-        files: "Fun With GitHub-*.*"
+        files: "${{ env.PROEJCT_PREFIX }}-*.*"
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
