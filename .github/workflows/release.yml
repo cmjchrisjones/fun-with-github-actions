@@ -54,14 +54,14 @@ jobs:
         name: ${{ env.PROEJCT_PREFIX }}-${{ matrix.target }}
         path: "${{ env.PROEJCT_PREFIX }}-*.*"
     
-    - name: Changelog
-      uses: glennawatson/ChangeLog@v1
-      id: changelog
+    #- name: Changelog
+    #  uses: glennawatson/ChangeLog@v1
+    #  id: changelog
     
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
         files: "${{ env.PROEJCT_PREFIX }}-*.*"
-        body: ${{ steps.changelog.outputs.commitLog }}
+        #body: ${{ steps.changelog.outputs.commitLog }}
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #provided by GitHub Actions
