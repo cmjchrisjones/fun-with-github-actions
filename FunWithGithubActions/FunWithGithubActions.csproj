@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <Configurations>Release;Debug</Configurations>
-        <Platforms>x64</Platforms>
+        <Platforms>x64;AnyCPU</Platforms>
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
