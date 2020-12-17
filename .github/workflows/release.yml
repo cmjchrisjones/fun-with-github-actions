@@ -52,11 +52,17 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.PROEJCT_PREFIX }}
-        path: "${{ env.PROEJCT_PREFIX }}.*"
+        path: "${{ env.PROEJCT_PREFIX }}-*.*"
+    
+    - name: Changelog
+      uses: glennawatson/ChangeLog@v1
+      id: changelog
     
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
         files: "${{ env.PROEJCT_PREFIX }}-*.*"
+        body: |
+          ${{ steps.Changelog.outputs.changelog }}
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #provided by GitHub Actions
