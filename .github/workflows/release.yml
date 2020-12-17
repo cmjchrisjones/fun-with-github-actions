@@ -6,24 +6,18 @@ on:
 
 env:
   PROJECT_FILE: FunWithGithubActions/FunWithGithubActions.csproj
-  PROEJCT_PREFIX: "Fun With GitHub Actions"
+  PROJECT_PREFIX: "Fun With GitHub Actions"
   DOTNET_SDK_VERSION: "3.1.x"
   FRAMEWORK: netcoreapp3.1
   CONFIGURATION: Release
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        kind: ['linux', 'windows']
-        include:
-          - kind: linux
-            os: ubuntu-latest
-            target: linux-x64
-          - kind: windows
-            os: windows-latest
-            target: win-x64
+    runs-on: ubuntu-latest
+    #strategy:
+      #fail-fast: false
+      #matrix:
+      #  os: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -36,23 +30,49 @@ jobs:
     - name: Verify .NET Core
       run: dotnet --info
     
-    - name: Build
-      run: dotnet publish "${{ env.PROJECT_FILE }}" -c ${{ env.CONFIGURATION }} -r "${{ matrix.target }}"  -f ${{ env.FRAMEWORK }} -o "${{ env.PROEJCT_PREFIX }}" /p:Version=${{ github.event.release.tag_name }}
+    #- name: Build Unix
+    #  run: dotnet publish "${{ env.PROJECT_FILE }}" -c ${{ env.CONFIGURATION }} -r "${{ matrix.target }}"  -f ${{ env.FRAMEWORK }} -o "${{ env.PROJECT_PREFIX }}" /p:Version=${{ github.event.release.tag_name }}
     
-    - name: Package
+    #- name: Build Windows
+    #  run: dotnet publish "${{ env.PROJECT_FILE }}" -c ${{ env.CONFIGURATION }} -r "${{ matrix.target }}"  -f ${{ env.FRAMEWORK }} -o "${{ env.PROJECT_PREFIX }}" /p:Version=${{ github.event.release.tag_name }}
+    
+    - name: Build
+      env:
+        VARIANTS: linux-arm linux-arm64 linux-x64 win-x64 win-x86
+        PUBLISH_VERSION: ${{ github.event.release.tag_name }}
       shell: bash
       run: |
-          if [ "${{ matrix.target }}" == "win-x64" ]; then
-            7z a -tzip "${{ env.PROEJCT_PREFIX }}-win-x64.zip" "./${{ env.PROEJCT_PREFIX }}/*"
+        set -eu
+        
+        publish() {
+          dotnet publish "${PROJECT_FILE}" -c "${CONFIGURATION}" -f "${FRAMEWORK}" -o "out/${1}" -r "${1}" -p:PublishSingleFile=true -p:PublishTrimmed=true -p:Version="${PUBLISH_VERSION}"
+          
+          if command -v 7z >/dev/null; then
+              7z a -bd -slp -tzip -mm=Deflate -mx=1 "out/${PROJECT_PREFIX}-${1}.zip" "${GITHUB_WORKSPACE}/out/${1}/*"
+          elif command -v zip >/dev/null; then
+              (
+                  cd "${GITHUB_WORKSPACE}/out/${1}"
+                  zip -1 -q -r "../${PROJECT_PREFIX}-${1}.zip" .
+              )
           else
-            tar czvf "${{ env.PROEJCT_PREFIX }}-linux-x64.tar.gz" "${{ env.PROEJCT_PREFIX }}"
+              echo "ERROR: No supported zip tool!"
+              return 1
           fi
+        }
+        
+        jobs=""
+        for variant in $VARIANTS; do
+            publish "$variant" &
+            jobs="$jobs $!"
+        done
+        for job in $jobs; do
+            wait "$job"
+        done
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.PROEJCT_PREFIX }}-${{ matrix.target }}
-        path: "${{ env.PROEJCT_PREFIX }}-*.*"
+        path: "out/${{ env.PROJECT_PREFIX }}-*.zip"
     
     #- name: Changelog
     #  uses: glennawatson/ChangeLog@v1
@@ -61,7 +81,7 @@ jobs:
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
-        files: "${{ env.PROEJCT_PREFIX }}-*.*"
+        files: "out/${{ env.PROJECT_PREFIX }}-*.*"
         #body: ${{ steps.changelog.outputs.commitLog }}
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #provided by GitHub Actions
