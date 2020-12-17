@@ -51,7 +51,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.PROEJCT_PREFIX }}
+        name: ${{ env.PROEJCT_PREFIX }}-${{ matrix.target }}
         path: "${{ env.PROEJCT_PREFIX }}-*.*"
     
     - name: Changelog
