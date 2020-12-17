@@ -62,7 +62,6 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: "${{ env.PROEJCT_PREFIX }}-*.*"
-        body: |
-          ${{ steps.Changelog.outputs.changelog }}
+        body: ${{ steps.changelog.outputs.commitLog }}
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #provided by GitHub Actions
