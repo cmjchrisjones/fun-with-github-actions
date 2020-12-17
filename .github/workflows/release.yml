@@ -42,7 +42,6 @@ jobs:
         PUBLISH_VERSION: ${{ github.event.release.tag_name }}
       shell: bash
       run: |
-        set -eu
         
         publish() {
           dotnet publish "${PROJECT_FILE}" -c "${CONFIGURATION}" -f "${FRAMEWORK}" -o "out/${1}" -r "${1}" -p:PublishSingleFile=true -p:PublishTrimmed=true -p:Version="${PUBLISH_VERSION}"
