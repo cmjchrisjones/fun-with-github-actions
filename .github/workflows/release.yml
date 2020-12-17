@@ -63,13 +63,8 @@ jobs:
           fi
         }
         
-        jobs=""
         for variant in $VARIANTS; do
-            publish "$variant" &
-            jobs="$jobs $!"
-        done
-        for job in $jobs; do
-            wait "$job"
+            publish "$variant"
         done
     
     - name: Upload Artifact
