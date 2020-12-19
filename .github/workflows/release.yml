@@ -36,6 +36,7 @@ jobs:
         set -eu
         
         publish() {
+          echo "Publish for ${1}"
           dotnet restore "${PROJECT_FILE}" -r "${1}"
           dotnet publish "${PROJECT_FILE}" -c "${CONFIGURATION}" -f "${FRAMEWORK}" -o "out/${1}" -r "${1}" -p:PublishSingleFile=true -p:PublishTrimmed=true -p:Version="${PUBLISH_VERSION}" --no-restore
           rm -rf "${PROJECT_FOLDER}/bin"
@@ -67,10 +68,19 @@ jobs:
       uses: glennawatson/ChangeLog@v1
       id: changelog
     
+    - name: Changelog Output
+      shell: bash
+      env:
+        OUTPUTS: ${{ steps.changelog.outputs.* }}
+      run: |
+        for output in $OUTPUTS; do
+          echo "$output"
+        done
+    
     - name: Publish
       uses: softprops/action-gh-release@v0.1.5
       with:
         files: "out/${{ env.PROJECT_PREFIX }}-*.*"
-        body: ${{ steps.changelog.outputs.* }}
+        body: ${{ steps.changelog.outputs.changelog }}
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #provided by GitHub Actions
