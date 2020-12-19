@@ -63,14 +63,14 @@ jobs:
     #  with:
     #    path: "out/${{ env.PROJECT_PREFIX }}-*.zip"
     
-    #- name: Changelog
-    #  uses: glennawatson/ChangeLog@v1
-    #  id: changelog
+    - name: Changelog
+      uses: glennawatson/ChangeLog@v1
+      id: changelog
     
     - name: Publish
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v0.1.5
       with:
         files: "out/${{ env.PROJECT_PREFIX }}-*.*"
-        #body: ${{ steps.changelog.outputs.commitLog }}
+        body: ${{ steps.changelog.outputs.* }}
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #provided by GitHub Actions
