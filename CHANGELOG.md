@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Released]
 
+## [2.0.2] - 2020-12-31
+
+### Fixed
+
+- Fixed created tag not being `vX.Y.Z`
+
 ## [2.0.1] - 2020-12-19
 
 ### Fixed
@@ -33,5 +39,6 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 <!-- Versions -->
 [Unreleased]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.1...HEAD
 [Released]: https://github.com/erri120/fun-with-github-actions/releases
+[2.0.2]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.1..v2.0.2
 [2.0.1]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.0..v2.0.1
 [2.0.0]: https://github.com/erri120/fun-with-github-actions/releases/v2.0.0
