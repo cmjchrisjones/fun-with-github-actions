@@ -80,21 +80,14 @@ jobs:
       
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
         tag_name: ${{ github.ref }}
-        release_name: Release ${{ steps.changelog_reader.outputs.version }}
+        name: Release ${{ steps.changelog_reader.outputs.version }}
         body: ${{ steps.changelog_reader.outputs.changes }}
         draft: ${{ steps.changelog_reader.outputs.status == 'unreleased' }}
         prerelease: ${{ steps.changelog_reader.outputs.status == 'prereleased' }}
-    
-    - name: Upload Release Assets
-      id: upload_release_assets
-      uses: NBTX/upload-release-assets@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        targets: "out/${{ env.PROJECT_PREFIX }}-*.*"
+        files: "out/${{ env.PROJECT_PREFIX }}-*.*
+
