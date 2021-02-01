@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Released]
 
+## [2.0.4] - 2021-02-1
+
+### Changed
+
+- Replaced [actions/create-release@v1](https://github.com/actions/create-release) with [softprops/action-gh-release@v1](https://github.com/softprops/action-gh-release)
+
 ## [2.0.3] - 2021-02-01
 
 ### Changed
@@ -43,8 +49,9 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.3...HEAD
+[Unreleased]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.4...HEAD
 [Released]: https://github.com/erri120/fun-with-github-actions/releases
+[2.0.4]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.3..v2.0.4
 [2.0.3]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.2..v2.0.3
 [2.0.2]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.1..v2.0.2
 [2.0.1]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.0..v2.0.1
