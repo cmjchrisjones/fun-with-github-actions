@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Released]
 
+## [2.1.0] - 2021-02-1
+
+### Changed
+
+- Changed release workflow to be manually triggered instead of on push with tag `v*`.
+
 ## [2.0.4] - 2021-02-1
 
 ### Changed
@@ -49,8 +55,9 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.4...HEAD
+[Unreleased]: https://github.com/erri120/fun-with-github-actions/compare/v2.1.0...HEAD
 [Released]: https://github.com/erri120/fun-with-github-actions/releases
+[2.1.0]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.4..v2.1.0
 [2.0.4]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.3..v2.0.4
 [2.0.3]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.2..v2.0.3
 [2.0.2]: https://github.com/erri120/fun-with-github-actions/compare/v2.0.1..v2.0.2
