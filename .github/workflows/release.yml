@@ -89,5 +89,5 @@ jobs:
         body: ${{ steps.changelog_reader.outputs.changes }}
         draft: ${{ steps.changelog_reader.outputs.status == 'unreleased' }}
         prerelease: ${{ steps.changelog_reader.outputs.status == 'prereleased' }}
-        files: "out/${{ env.PROJECT_PREFIX }}-*.*
+        files: "out/${{ env.PROJECT_PREFIX }}-*.*"
 
