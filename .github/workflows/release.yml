@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Get version from tag
+    - name: Get version from input
       id: tag_name
       shell: bash
       env:
